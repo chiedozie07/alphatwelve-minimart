@@ -30,7 +30,7 @@ export default function TabLayout() {
 
         return {
           // We hide the default header because each screen will draw its own header
-          headerShown: true,
+          headerShown: false,
           tabBarShowLabel: true,
           tabBarLabelPosition: 'below-icon',
           tabBarActiveTintColor: '#60B5FF',
@@ -90,8 +90,9 @@ export default function TabLayout() {
           options={{
             title: tab.title,
             tabBarBadge: tab.tabBarBadge,
+            tabBarHideOnKeyboard: false,
             tabBarBadgeStyle: {
-              backgroundColor: '#FF3B30',
+              backgroundColor: '#3C4856',
               color: '#FFFFFF',
               fontSize: 10,
               minWidth: 16,

@@ -2,11 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { TextInput, View } from "react-native";
 
-export default function SearchBar({
-  placeholder,
-}: {
-  placeholder: string;
-}) {
+export default function SearchBar({placeholder}: { placeholder: string; }) {
   return (
     <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2 mt-2 mb-10">
       <MaterialCommunityIcons
@@ -22,4 +18,4 @@ export default function SearchBar({
       />
     </View>
   );
-}
+};

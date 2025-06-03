@@ -1,4 +1,4 @@
-# Welcome to AlphaTwelve MiniMart app! 👋
+# Welcome to AlphaTwelve MiniMart eCommerce app! 👋
 
 ## Get started
 

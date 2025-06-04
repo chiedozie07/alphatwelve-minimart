@@ -2,12 +2,13 @@ import "@/global.css";
 import React from "react";
 import {
   StatusBar,
-  Text,
   View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AmText } from "../atoms";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
+
 
 export default function HomeScreen() {
 
@@ -19,7 +20,7 @@ export default function HomeScreen() {
         <SearchBar placeholder="Search..." />
       </View>
 
-      <Text>Welcome to AlphaTwelve MiniMart eCommerce App!!ff!</Text>
+      <AmText variant="displayMedium" style={{ alignSelf: 'center' }}>Welcome to AlphaTwelve MiniMart eCommerce App</AmText>
     </SafeAreaView>
   );
 }

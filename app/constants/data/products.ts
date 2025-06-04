@@ -1,11 +1,4 @@
-export type Product = {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-  category: string;
-  subcategory: string;
-};
+import { Product } from "../dtos/common";
 
 export const products: Product[] = [
   {

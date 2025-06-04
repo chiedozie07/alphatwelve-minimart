@@ -1,9 +1,10 @@
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DefaultTheme as NavigationDefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { MD3LightTheme as PaperDefaultTheme, PaperProvider } from 'react-native-paper';
 import 'react-native-reanimated';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -11,18 +12,32 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+    return null; // optionally show a SplashScreen or loader
   }
 
+  const paperTheme = {
+    ...PaperDefaultTheme,
+    colors: {
+      ...PaperDefaultTheme.colors,
+      primary: '#0f172a',
+      secondary: '#60B5FF',
+      background: '#ffffff',
+      surface: '#f8fafc',
+      text: '#0f172a',
+    },
+  };
+
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <StatusBar style="light" />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        {/* <Stack.Screen name="product/[id]" options={{headerShown: false}} /> */}
-      </Stack>
-    </ThemeProvider>
+    <PaperProvider theme={paperTheme}>
+      <SafeAreaProvider>
+        <ThemeProvider value={NavigationDefaultTheme}>
+          <StatusBar style="dark" />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </PaperProvider>
   );
 }

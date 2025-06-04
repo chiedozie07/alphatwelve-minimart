@@ -1,23 +1,24 @@
 import { AmText } from "@/app/atoms";
-import { Product } from "@/app/constants/dtos/common";
+import { ProductProps } from "@/app/constants/dtos/common";
 import AmCard from "@/app/molecules/AmCard";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
 type Props = {
-  product: Product;
+  product: ProductProps;
 };
 
 const AmProductCard: React.FC<Props> = ({ product }) => {
-  // const router = useRouter();
+  const router = useRouter();
 
   return (
     <TouchableOpacity activeOpacity={0.5}
     className="bg-white mb-4 shadow-sm"
     style={{ width: "48%", borderRadius: 16 }}
-    // onPress={() => {
-    //   router.push(`/product/${product.id}`);
-    // }} 
+    onPress={() => {
+      router.push(`/product/${product.id}`);
+    }} 
     >
       <AmCard>
         <View className="bg-gray-100 rounded-lg justify-center items-center h-40 overflow-hidden">

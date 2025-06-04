@@ -1,15 +1,23 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { AmText } from '../atoms';
+import AppHeader from '../molecules/AppHeader';
 
-const Favorites = () => {
+export default function FavoritesScreen() {
   return (
-    <SafeAreaView style={{flex: 1, alignItems: 'center',}}>
-      <AmText  style={{fontWeight: 'bold'}}>Favorites</AmText>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
+      <AppHeader />
+      <View style={styles.center}>
+        <AmText variant="bodyLarge">No favorites yet.</AmText>
+      </View>
     </SafeAreaView>
-  )
+  );
 };
 
-export default Favorites;
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  center: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
+});

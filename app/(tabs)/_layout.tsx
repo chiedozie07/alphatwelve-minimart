@@ -1,4 +1,4 @@
-import HapticTab from '@/app/components/HapticTab';
+import HapticTab from '@/app/molecules/HapticTab';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';

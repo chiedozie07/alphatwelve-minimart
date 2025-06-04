@@ -1,8 +1,8 @@
+import { AmText } from "@/app/atoms";
 import { Product } from "@/app/constants/dtos/common";
 import AmCard from "@/app/molecules/AmCard";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text } from "react-native-paper";
 
 type Props = {
   product: Product;
@@ -28,12 +28,12 @@ const AmProductCard: React.FC<Props> = ({ product }) => {
           />
         </View>
         <View className="p-2">
-          <Text variant="titleSmall" className="mt-2 text-gray-500 font-medium">
+          <AmText variant="titleSmall" className="mt-2 text-gray-500 font-medium">
             {product.name}
-          </Text>
-          <Text variant="titleMedium" className="text-black font-bold mt-1">
+          </AmText>
+          <AmText variant="titleMedium" className="text-black font-bold mt-1">
             ${product.price.toFixed(2)}
-          </Text>
+          </AmText>
         </View>
       </AmCard>
     </TouchableOpacity>

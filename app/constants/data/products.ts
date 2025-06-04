@@ -1,6 +1,6 @@
-import { Product } from "../dtos/common";
+import { ProductProps } from "../dtos/common";
 
-export const products: Product[] = [
+export const products: ProductProps[] = [
   {
     id: "1",
     name: "Apple iPhone 16 128GB | Teal",

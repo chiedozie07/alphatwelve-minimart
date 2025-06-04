@@ -1,14 +1,15 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
+import { AmText } from '../atoms'
 
 const Cart = () => {
   return (
-    <View>
-      <Text>Cart Tab</Text>
-    </View>
+    <SafeAreaView className='flex-1 items-center'>
+      <AmText style={{fontWeight: 'bold'}}>Cart Tab</AmText>
+    </SafeAreaView>
   )
 }
 
-export default Cart
+export default Cart;
 
 const styles = StyleSheet.create({})

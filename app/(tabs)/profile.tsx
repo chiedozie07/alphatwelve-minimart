@@ -1,11 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
+import { AmText } from '../atoms'
 
 const Profile = () => {
   return (
-    <View>
-      <Text>Profile</Text>
-    </View>
+    <SafeAreaView className='flex: 1, items-center'>
+      <AmText style={{fontWeight: 'bold'}}>Profile</AmText>
+    </SafeAreaView>
   )
 }
 

@@ -62,7 +62,7 @@ export default function TabLayout() {
               <View
                 style={{
                   // width:  35,
-                  // height: fortyPx,
+                  // height: 40,
                   minWidth: 40,
                   padding: 4,
                   paddingBottom: 4,

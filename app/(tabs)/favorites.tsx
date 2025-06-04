@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { AmText } from '../atoms';
 
 const Favorites = () => {
   return (
-    <View>
-      <Text>Favorites</Text>
-    </View>
+    <SafeAreaView style={{flex: 1, alignItems: 'center',}}>
+      <AmText  style={{fontWeight: 'bold'}}>Favorites</AmText>
+    </SafeAreaView>
   )
 };
 

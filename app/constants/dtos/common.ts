@@ -6,6 +6,7 @@ export type ProductProps = {
     category: string;
     subcategory: string;
     description?: string;
+    description_subtitle?: string;
   };  
 
 export type VariantType =
@@ -26,13 +27,30 @@ export type VariantType =
 | 'bodySmall';
 
 // extend product with quantity
-export interface CartItem extends ProductProps {
+export interface ICartItem extends ProductProps {
   quantity: number;
 };
-export interface CartContextType {
-  cart: CartItem[];
+export interface ICartContextType {
+  cart: ICartItem[];
   addToCart: (product: ProductProps) => void;
   increment: (id: string) => void;
   decrement: (id: string) => void;
   remove: (id: string) => void;
 };
+
+// user props definition
+export interface IUserProps {
+  id: string;
+  name: string;
+  email: string;
+};
+export interface IUserContextType {
+  user: IUserProps | null;
+  setUser: (user: IUserProps | null) => void;
+  isLoggedIn: boolean;
+};
+export interface IProductsContextType {
+  products: ProductProps[];
+  setProducts: (items: ProductProps[]) => void;
+};
+

@@ -1,23 +1,28 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, SafeAreaView, View } from 'react-native';
 import { AmText } from '../atoms';
+import { useUser } from '../hooks/useUser';
 import AppHeader from '../molecules/AppHeader';
 
 export default function ProfileScreen() {
+  const { user, setUser, isLoggedIn } = useUser();
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
+    <SafeAreaView className="flex-1 bg-[#F8FAFC]">
       <AppHeader />
-      <View style={styles.center}>
-        <AmText variant="bodyLarge">Profile screen, coming soon...</AmText>
-      </View>
+      {isLoggedIn ? (
+        <View className='items-center justify-center'>
+          <AmText variant="titleMedium">Hello, {user?.name}!</AmText>
+          <AmText variant="bodyLarge">Profile screen, coming soon...</AmText>
+        </View>
+      ) : (
+        <Button
+          title="Log In"
+          onPress={() =>
+            setUser({ id: 'u1', name: 'Guest', email: 'jane@example.com' })
+          }
+        />
+      )}
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  center: { 
-    flex: 1, 
-    justifyContent: 'center',
-    alignItems: 'center' 
-  },
-});

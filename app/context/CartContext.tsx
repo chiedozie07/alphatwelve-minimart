@@ -4,10 +4,10 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { CartContextType, CartItem, ProductProps } from '../constants/dtos/common';
+import { ICartContextType, ICartItem, ProductProps } from '../constants/dtos/common';
 
 // create cart context
-export const CartContext = createContext<CartContextType | null>(null);
+export const CartContext = createContext<ICartContextType | null>(null);
 
 interface CartProviderProps {
   children: ReactNode;
@@ -15,7 +15,7 @@ interface CartProviderProps {
 
 // create cart provider
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<ICartItem[]>([]);
 
   const addToCart = (product: ProductProps) => {
     setCart(prevCart => {
@@ -31,7 +31,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
     });
   };
-
+  
+  // increase the selected cart product quantity
   const increment = (id: string) => {
     setCart(prevCart =>
       prevCart.map(item =>
@@ -39,7 +40,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       )
     );
   };
-
+  
+  // decrese the selected cart product quantity
   const decrement = (id: string) => {
     setCart(prevCart =>
       prevCart.map(item =>
@@ -49,12 +51,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       )
     );
   };
-
+  
+  // deselect or remove product from cart
   const remove = (id: string) => {
     setCart(prevCart => prevCart.filter(item => item.id !== id));
   };
-
-  const value = useMemo(() => ({
+  
+  // expose cart data and methods to app global context/state
+  const memoizedValues = useMemo(() => ({
       cart,
       addToCart,
       increment,
@@ -64,5 +68,5 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     [cart]
   );
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={memoizedValues}>{children}</CartContext.Provider>;
 };

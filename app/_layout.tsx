@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MD3LightTheme as PaperDefaultTheme, PaperProvider } from 'react-native-paper';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AppProviders } from './context/AppProviders';
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -30,14 +31,16 @@ export default function RootLayout() {
   return (
     <PaperProvider theme={paperTheme}>
       <SafeAreaProvider>
-        <ThemeProvider value={NavigationDefaultTheme}>
-          <StatusBar style="dark" />
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-            <Stack.Screen name="product/[id]" options={{headerShown: false}} />
-          </Stack>
-        </ThemeProvider>
+        <AppProviders>
+          <ThemeProvider value={NavigationDefaultTheme}>
+            <StatusBar style="dark" />
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="+not-found" />
+              <Stack.Screen name="product/[id]" />
+            </Stack>
+          </ThemeProvider>
+        </AppProviders>
       </SafeAreaProvider>
     </PaperProvider>
   );

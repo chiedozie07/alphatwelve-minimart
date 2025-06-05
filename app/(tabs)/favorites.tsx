@@ -8,7 +8,7 @@ export default function FavoritesScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
       <AppHeader />
       <View style={styles.center}>
-        <AmText variant="bodyLarge">No favorites yet.</AmText>
+        <AmText variant="bodyLarge">No favorites yet, feature comming soon...</AmText>
       </View>
     </SafeAreaView>
   );

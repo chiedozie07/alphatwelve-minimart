@@ -3,33 +3,35 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, View } from 'react-native';
+import { useCart } from '../hooks/useCart';
 
 // explicitly allow type only valid icon names from MaterialCommunityIcons:
 type TabIconName = keyof typeof MaterialCommunityIcons.glyphMap;
 
-interface TabItem {
+export interface TabItem {
   name: string;
   title: string;
   icon: TabIconName;
-  tabBarBadge?: number;
-}
+  tabBarBadge?: string | number | undefined;
+};
 
-// tab items definition
+export default function TabLayout() {
+  const { cart } = useCart();
+
+  // tab items definition
 const tabItems: TabItem[] = [
   { name: 'index',     title: 'Home',      icon: 'home' },
-  { name: 'cart',      title: 'Cart',      icon: 'cart-outline',  tabBarBadge: 1 },
+  { name: 'cart',      title: 'Cart',      icon: 'cart-outline',  tabBarBadge: cart?.length === 0 ? undefined : cart?.length},
   { name: 'favorites', title: 'Favorites', icon: 'heart-outline' },
   { name: 'profile',   title: 'Profile',   icon: 'account-circle-outline' },
 ];
 
-export default function TabLayout() {
   return (
     <Tabs
       screenOptions={({ route }) => {
         const currentTab = tabItems.find((t) => t.name === route.name);
 
         return {
-          // We hide the default header because each screen will draw its own header
           headerShown: false,
           tabBarShowLabel: true,
           tabBarLabelPosition: 'below-icon',

@@ -8,6 +8,8 @@ export const products: ProductProps[] = [
     price: 700.0,
     category: "Technology",
     subcategory: "Smartphones, Laptops & Accessories",
+    description: "This pre-owned product is not Apple certified, but has been professionally inspected, tested and cleaned by Amazon-qualified suppliers.",
+    description_subtitle: "There will be minor cosmetic imperfections which may include a scratch or two, but the item will function as new."
   },
   {
     id: "2",
@@ -16,6 +18,8 @@ export const products: ProductProps[] = [
     price: 1000.0,
     category: "Technology",
     subcategory: "Smartphones, Laptops & Accessories",
+    description: "This pre-owned product is not Apple certified, but has been professionally inspected, tested and cleaned by Amazon-qualified suppliers.",
+    description_subtitle: "There will be minor cosmetic imperfections which may include a scratch or two, but the item will function as new."
   },
   {
     id: "3",
@@ -24,6 +28,8 @@ export const products: ProductProps[] = [
     price: 499.0,
     category: "Technology",
     subcategory: "Smartphones, Laptops & Accessories",
+    description: "This pre-owned product is not Apple certified, but has been professionally inspected, tested and cleaned by Amazon-qualified suppliers.",
+    description_subtitle: "There will be minor cosmetic imperfections which may include a scratch or two, but the item will function as new."
   },
   {
     id: "4",
@@ -32,5 +38,7 @@ export const products: ProductProps[] = [
     price: 129.0,
     category: "Technology",
     subcategory: "Smartphones, Laptops & Accessories",
+    description: "This pre-owned product is not Apple certified, but has been professionally inspected, tested and cleaned by Amazon-qualified suppliers.",
+    description_subtitle: "There will be minor cosmetic imperfections which may include a scratch or two, but the item will function as new."
   },
 ];

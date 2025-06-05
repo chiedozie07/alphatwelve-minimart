@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "alphatwelve-minimart",
+    "name": "AlphaTwelve Minimart",
     "slug": "alphatwelve-minimart",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -37,6 +37,7 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "jsEngine": "hermes"
   }
 }

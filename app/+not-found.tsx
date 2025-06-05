@@ -1,14 +1,15 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { AmText } from './atoms';
 
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: '😢 Oops!' }} />
       <View style={styles.container}>
-        <Text>This screen does not exist.</Text>
-        <Link href="/" style={styles.link}>
-          <Text>Go to home screen!</Text>
+        <AmText variant='headlineMedium'>This screen does not exist.</AmText>
+        <Link href="/" style={styles.link} className="flex-row h-auto w-auto bg-blue-100 rounded-md justify-center items-center py-3 px-3">
+          <AmText variant='labelMedium' className="text-blue-600 font-bold text-center">Go to home screen!</AmText>
         </Link>
       </View>
     </>

@@ -3,17 +3,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, View } from 'react-native';
+import { TabIconName, TabItem } from '../constants/dtos/common';
 import { useCart } from '../hooks/useCart';
 
-// explicitly allow type only valid icon names from MaterialCommunityIcons:
-type TabIconName = keyof typeof MaterialCommunityIcons.glyphMap;
-
-export interface TabItem {
-  name: string;
-  title: string;
-  icon: TabIconName;
-  tabBarBadge?: string | number | undefined;
-};
 
 export default function TabLayout() {
   const { cart } = useCart();

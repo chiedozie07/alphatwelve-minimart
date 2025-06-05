@@ -1,6 +1,6 @@
 import "@/global.css";
-import { AntDesign } from "@expo/vector-icons";
-import React, { useEffect, useRef, useState } from "react";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, StatusBar, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AmText } from "../atoms";
@@ -15,6 +15,8 @@ import AmProductCard from "../organisms/card/AmProductCard";
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const timerRef = useRef<number | null>(null);
 
   // filter prooducts by "Technology" category
@@ -35,13 +37,30 @@ export default function HomeScreen() {
     };
   }, []);
 
+  // filtered list,, memoized for performance
+  const filteredProducts = useMemo(() => {
+    const lower = searchQuery.trim().toLowerCase();
+    if (lower === '') return techProducts;
+    return techProducts.filter((p) => p.name.toLowerCase().includes(lower));
+  }, [techProducts, searchQuery]);
+
+  // handler for debounced search result
+  const handleSearchChange = (text: string) => {
+    setIsSearching(true);
+    setSearchQuery(text);
+    // filtering is synchronous, so we can immediately turn off the spinner:
+    setIsSearching(false);
+  };
+  
+  // refresh product list
   const refreshProductList = () => {
     setRefreshing(true);
-
     timerRef.current = setTimeout(() => {
       setRefreshing(false);
+      setIsSearching(false);
     }, 3000);
   };
+
 
 
   return (
@@ -54,7 +73,7 @@ export default function HomeScreen() {
           <AppHeader />
           {/* search bar */}
           <View className="px-4 mt-2">
-            <SearchBar placeholder="Search..." />
+            <SearchBar isSearching={isSearching} placeholder="Search..." value={searchQuery} onSearchChange={handleSearchChange} />
           </View>
           {/* category header */}
           <View className="flex-row items-center justify-between px-4 py-3">
@@ -71,27 +90,38 @@ export default function HomeScreen() {
             <>
               {/* subheading */}
               <View className="px-4">
-                <AmText variant="bodyMedium" className="text-base text-gray-700 mb-4">
-                  Smartphones, Laptops & Accessories
-                </AmText>
+                <AmText variant="bodyMedium" className="text-base text-gray-700 mb-4">Smartphones, Laptops & Accessories</AmText>
               </View>
-              {/* product grid */}
-              <FlatList
-                data={techProducts}
-                numColumns={2}
-                columnWrapperStyle={{ justifyContent: "space-between", paddingHorizontal: 16 }}
-                // contentContainerStyle={{ paddingTop: 8, paddingBottom: 80 }}
-                contentContainerStyle={
-                  !isLoading && !techProducts
-                    ? { flexGrow: 1, justifyContent: 'center' }
-                    : null
-                }
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <AmProductCard product={item} />}
-                showsVerticalScrollIndicator={false}
-                refreshing={refreshing}
-                onRefresh={refreshProductList}
-              />
+
+              {/* If no results */}
+              {filteredProducts.length === 0 ? (
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                  <MaterialCommunityIcons name="tab-search" size={24} color="#94a3b8" />
+                  <AmText variant="bodyLarge" style={{ color: '#6B7280', marginLeft: 15, fontSize: 16 }}>😢opss! no products match "{searchQuery}"</AmText>
+                </View>
+              ) : (
+                <FlatList
+                  data={filteredProducts}
+                  keyExtractor={(item) => item.id.toString()}
+                  numColumns={2}
+                  columnWrapperStyle={{
+                    justifyContent: 'space-between',
+                    paddingHorizontal: 16,
+                    marginTop: 8,
+                  }}
+                  // columnWrapperStyle={{ justifyContent: "space-between", paddingHorizontal: 16 }}
+                  // contentContainerStyle={{ paddingTop: 8, paddingBottom: 80 }}
+                  contentContainerStyle={
+                    !isLoading && !techProducts
+                      ? { flexGrow: 1, justifyContent: 'center' }
+                      : null
+                  }
+                  renderItem={({ item }) => <AmProductCard product={item} />}
+                  showsVerticalScrollIndicator={false}
+                  refreshing={refreshing}
+                  onRefresh={refreshProductList}
+                />
+              )}
             </>
           )}
         </>

@@ -27,17 +27,20 @@ export type SnackbarState = {
   visible: boolean;
   message: string;
   status?: string;
+  iconName?: any;
 };
 
 export default function ProductDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [proccessing, setProccessing] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     visible: false,
     message: '',
-    status: ''
+    status: '',
+    iconName: ''
   });
 
   // track whether the component is still mounted
@@ -67,7 +70,7 @@ export default function ProductDetailsScreen() {
     const existingItem = cart.find((item) => item.id === productId);
     if (existingItem) {
       // check if item already in cart
-      setSnackbar({ visible: true, message: 'Oppss... Item is already in cart!', status: 'warning' });
+      setSnackbar({ visible: true, message: 'Oppss... Item is already in cart!', status: 'info', iconName: 'information-outline' });
       const timer = setTimeout(() => {
         if (isMountedRef.current) {
           setSnackbar({ visible: false, message: '' });
@@ -77,6 +80,7 @@ export default function ProductDetailsScreen() {
     }
     // if item is not in cart, add it
     setLoading(true);
+    setProccessing(false);
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (isMountedRef.current) {
@@ -92,6 +96,7 @@ export default function ProductDetailsScreen() {
     } finally {
       if (isMountedRef.current) {
         setLoading(false);
+        setProccessing(false);
       }
     }
   };
@@ -102,12 +107,13 @@ export default function ProductDetailsScreen() {
       <AmLoader visible={loading} />
       {/* unified snackbar with status to show that product is been added to the cart */}
       {snackbar.visible && (
-        <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 98, left: 0, right: 0, zIndex: 100 }}>
+        <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 120, left: 0, right: 0, zIndex: 100 }}>
           <AmSnackbar
             visible={snackbar.visible}
             onDismiss={() => setSnackbar({ visible: false, message: '' })}
             message={snackbar.message}
-            status={snackbar.status?.includes('warning') ? 'warning' : 'success'}
+            status={snackbar.status?.includes('info') ? 'info' : 'success'}
+            iconName={snackbar.iconName?.includes('information-outline') && 'information-outline'}
           />
         </View>
       )}
@@ -165,10 +171,10 @@ export default function ProductDetailsScreen() {
           {/* add to cart button */}
           <View style={{ flex: 1, justifyContent: 'center' }}>
             <AmCustomButton
-              title="Add to cart"
+              title={proccessing ? 'Adding to cart...' : 'Add to cart'}
               onPress={() => handleAddToCart(product.id)}
-              loading={loading}
-              disabled={loading}
+              loading={proccessing}
+              disabled={proccessing}
               style={styles.addToCartButton}
               textStyle={styles.buttonText} 
             />
@@ -196,7 +202,7 @@ const styles = StyleSheet.create({
   backRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
     marginTop: 12,
   },

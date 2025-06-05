@@ -15,7 +15,7 @@ const EmptyResult: React.FC<EmptyResultProps> = ({size = 100, text, style = {}, 
   return (
     <View style={[styles.container, style]} className={className}>
       <IconButton icon="layers-search" size={size} />
-      {text && <AmText variant="bodyLarge" className='text-2lg'>{text}</AmText>}
+      {text && <AmText variant="bodyLarge" style={{fontSize: 18, fontWeight: 400, textAlign: 'center'}}>{text}</AmText>}
       {children}
     </View>
   );

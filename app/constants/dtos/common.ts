@@ -1,3 +1,15 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleProp, TextInputProps, ViewStyle } from "react-native";
+
+// explicitly allow type only valid icon names from MaterialCommunityIcons:
+export type TabIconName = keyof typeof MaterialCommunityIcons.glyphMap;
+export interface TabItem {
+  name: string;
+  title: string;
+  icon: TabIconName;
+  tabBarBadge?: string | number | undefined;
+};
+
 export type ProductProps = {
     id: string;
     name: string;
@@ -7,6 +19,7 @@ export type ProductProps = {
     subcategory: string;
     description?: string;
     description_subtitle?: string;
+    isInStock?: boolean;
   };  
 
 export type VariantType =
@@ -52,5 +65,34 @@ export interface IUserContextType {
 export interface IProductsContextType {
   products: ProductProps[];
   setProducts: (items: ProductProps[]) => void;
+};
+
+export type ButtonMode =
+  | 'text'
+  | 'outlined'
+  | 'contained'
+  | 'elevated'
+  | 'contained-tonal';
+export interface IAmButtonProps {
+  type?: 'regular' | 'rounded';
+  onPress?: () => void;
+  title: string;
+  mode?: ButtonMode;
+  icon?: string;
+  transparent?: boolean;
+  buttonColor?: string;
+  textColor?: string;
+  style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
+  disabled?: boolean;
+  loading?: boolean;
+};
+export interface SearchBarProps extends TextInputProps {
+  value: string;
+  onSearchChange: (text: string) => void;
+  placeholder?: string;
+  debounceDelay?: number;
+  style?: any;
+  isSearching?: boolean;
 };
 

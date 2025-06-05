@@ -1,7 +1,5 @@
-// components/AmCustomButton.tsx
-
 import React from 'react';
-import { ActivityIndicator, StyleSheet, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
 import AmText from '../text/AmText';
 
 
@@ -31,7 +29,12 @@ const AmCustomButton: React.FC<AmCustomButtonProps> = ({ title, onPress, disable
       disabled={disabled || loading}
     >
       {loading ? (
+        <View className='flex-row justify-center items-center'>
+          <AmText variant="labelLarge" style={[styles.buttonText, textStyle, {marginRight: 15}]}>
+          {title}
+        </AmText>
         <ActivityIndicator size="small" color="#FFFFFF" />
+        </View>
       ) : (
         <AmText variant="labelLarge" style={[styles.buttonText, textStyle]}>
           {title}

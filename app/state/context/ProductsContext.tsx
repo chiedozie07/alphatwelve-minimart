@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useMemo, useState } from 'react';
-import { products as initialProducts } from '../constants/data/products';
-import { IProductsContextType, ProductProps } from '../constants/dtos/common';
+import { products as initialProducts } from '../../constants/data/products';
+import { IProductsContextType, ProductProps } from '../../constants/dtos/common';
 
 
 export const ProductsContext = createContext<IProductsContextType | null>(null);

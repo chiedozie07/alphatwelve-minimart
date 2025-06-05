@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { IUserContextType } from "../constants/dtos/common";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../state/context/UserContext";
 
 export const useUser = (): IUserContextType => {
     const context = useContext(UserContext);

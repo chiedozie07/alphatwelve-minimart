@@ -32,7 +32,7 @@ const AmProductCard: React.FC<Props> = ({ product }) => {
           <AmText variant="titleSmall" className="mt-2 text-gray-500 font-medium">
             {product.name}
           </AmText>
-          <AmText variant="titleMedium" className="text-black font-bold mt-1">
+          <AmText style={{fontWeight: '700', fontSize: 18}} variant="titleMedium" className="text-black mt-1">
             ${product.price.toFixed(2)}
           </AmText>
         </View>

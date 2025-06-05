@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MD3LightTheme as PaperDefaultTheme, PaperProvider } from 'react-native-paper';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AppProviders } from './context/AppProviders';
+import { AppProviders } from './state/context/AppProviders';
 
 export default function RootLayout() {
   const [loaded] = useFonts({

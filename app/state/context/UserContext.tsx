@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useMemo, useState } from 'react';
-import { IUserContextType, IUserProps } from '../constants/dtos/common';
+import { IUserContextType, IUserProps } from '../../constants/dtos/common';
 
 
 export const UserContext = createContext<IUserContextType | null>(null);

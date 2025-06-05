@@ -4,7 +4,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { ICartContextType, ICartItem, ProductProps } from '../constants/dtos/common';
+import { ICartContextType, ICartItem, ProductProps } from '../../constants/dtos/common';
 
 // create cart context
 export const CartContext = createContext<ICartContextType | null>(null);

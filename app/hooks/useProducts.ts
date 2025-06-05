@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { IProductsContextType } from "../constants/dtos/common";
-import { ProductsContext } from "../context/ProductsContext";
+import { ProductsContext } from "../state/context/ProductsContext";
 
 export const useProducts = (): IProductsContextType => {
     const context = useContext(ProductsContext);

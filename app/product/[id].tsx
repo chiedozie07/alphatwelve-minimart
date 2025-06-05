@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AmText } from '../atoms';
+import AmCustomButton from '../atoms/buttons/AmCustomButton';
 import { products } from '../constants/data/products';
 import { ProductProps } from '../constants/dtos/common';
 import { useCart } from '../hooks/useCart';
@@ -21,13 +22,24 @@ import AmSnackbar from '../molecules/AmSnackbar';
 import AppHeader from '../molecules/AppHeader';
 import EmptyResult from '../molecules/EmptyResult';
 
+
+export type SnackbarState = {
+  visible: boolean;
+  message: string;
+  status?: string;
+};
+
 export default function ProductDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [favorite, setFavorite] = useState(false);
-  const [isItemInCart, setIsItemInCart] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    visible: false,
+    message: '',
+    status: ''
+  });
+
   // track whether the component is still mounted
   const isMountedRef = useRef(true);
   useEffect(() => {
@@ -38,6 +50,7 @@ export default function ProductDetailsScreen() {
   const product: ProductProps | undefined = products.find((p) => p.id === id);
   const { addToCart, cart } = useCart();
 
+  // get device window size
   const { height, width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
@@ -49,45 +62,32 @@ export default function ProductDetailsScreen() {
     );
   };
 
-  // const handleAddToCart = async (id: string) => {
-  //   setLoading(true);
-  //   try {
-  //     // check if product already exist in cart
-  //     const cartItem = cart.map((item) => item.id === id);
-  //     if (cartItem) {
-  //       setIsItemInCart(true);
-  //       setTimeout(() => setIsItemInCart(false), 3000)
-  //     } else {
-  //     // simulate a network/request delay
-  //     await new Promise((resolve) => setTimeout(resolve, 500));
-  //     addToCart(product);
-  //     setSnackbarVisible(true);
-  //     };
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
+  // add the selected product tocart
   const handleAddToCart = async (productId: string) => {
-    // check if item already in cart
     const existingItem = cart.find((item) => item.id === productId);
     if (existingItem) {
-      // show “already in cart” message
-      setIsItemInCart(true);
+      // check if item already in cart
+      setSnackbar({ visible: true, message: 'Oppss... Item is already in cart!', status: 'warning' });
       const timer = setTimeout(() => {
         if (isMountedRef.current) {
-          setIsItemInCart(false);
+          setSnackbar({ visible: false, message: '' });
         }
       }, 3000);
       return () => clearTimeout(timer);
     }
-    // otherwise, simulate loading and add
+    // if item is not in cart, add it
     setLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (isMountedRef.current) {
         addToCart(product);
-        setSnackbarVisible(true);
+        setSnackbar({ visible: true, message: 'Item has been added to cart!', status: 'success' });
+        const timer = setTimeout(() => {
+          if (isMountedRef.current) {
+            setSnackbar({ visible: false, message: '' });
+          }
+        }, 3000);
+        return () => clearTimeout(timer);
       }
     } finally {
       if (isMountedRef.current) {
@@ -100,14 +100,14 @@ export default function ProductDetailsScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
       {/* loader */}
       <AmLoader visible={loading} />
-
-      {/* snackbar to show that product is been added to the cart */}
-      {snackbarVisible && (
+      {/* unified snackbar with status to show that product is been added to the cart */}
+      {snackbar.visible && (
         <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 98, left: 0, right: 0, zIndex: 100 }}>
           <AmSnackbar
-            visible={snackbarVisible}
-            onDismiss={() => setSnackbarVisible(false)}
-            message={isItemInCart ? 'Item has been added to cart!' : 'Oopss... Item is already in cart!'}
+            visible={snackbar.visible}
+            onDismiss={() => setSnackbar({ visible: false, message: '' })}
+            message={snackbar.message}
+            status={snackbar.status?.includes('warning') ? 'warning' : 'success'}
           />
         </View>
       )}
@@ -163,15 +163,21 @@ export default function ProductDetailsScreen() {
           </View>
 
           {/* add to cart button */}
-          <TouchableOpacity
-            style={styles.addToCartButton}
-            activeOpacity={0.8}
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <AmCustomButton
+              title="Add to cart"
+              onPress={() => handleAddToCart(product.id)}
+              loading={loading}
+              disabled={loading}
+              style={styles.addToCartButton}
+              textStyle={styles.buttonText} 
+            />
+          </View>
+          {/* <AmButton title='Add to cart' 
+            type='regular' mode='contained' 
             onPress={() => handleAddToCart(product.id)}
-          >
-            <AmText variant="labelLarge" style={styles.buttonText}>
-              Add to cart
-            </AmText>
-          </TouchableOpacity>
+            style={styles.addToCartButton}
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -198,7 +204,7 @@ const styles = StyleSheet.create({
   productImageContainer: {
     marginHorizontal: 16,
     marginTop: 16,
-    backgroundColor: '#F6F5F8', //'#60B5FF',
+    backgroundColor: '#F6F5F8',
     borderRadius: 16,
     elevation: 2,
     shadowColor: '#000',
@@ -220,9 +226,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     paddingVertical: 12,
-    marginTop: 24,
+    marginTop: 20,
     marginHorizontal: 16,
     marginBottom: 20,
   },
-  buttonText: { color: '#FFFFFF', fontWeight: '600' },
+  buttonText: { color: '#FFFFFF', fontWeight: '600', fontSize: 16 },
 });

@@ -87,6 +87,28 @@ export interface IAmButtonProps {
   disabled?: boolean;
   loading?: boolean;
 };
+
+export type AmSnackbarProps = {
+  visible: boolean;
+  onDismiss: () => void;
+  message: string;
+  duration?: number | undefined;
+  status?: 'success' | 'info' | 'warning' | 'error';
+  /** 
+   * Override the default icon for this status. 
+   * Must be a valid name from MaterialCommunityIcons.glyphMap 
+   */
+  iconName?: keyof typeof MaterialCommunityIcons.glyphMap;
+};
+
+
+export type SnackbarState = {
+  visible: boolean;
+  message: string;
+  status?: string;
+  iconName?: any;
+  duration?: number | undefined
+};
 export interface SearchBarProps extends TextInputProps {
   value: string;
   onSearchChange: (text: string) => void;

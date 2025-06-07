@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
   // simulate product loading
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 5000);
+    const timer = setTimeout(() => setIsLoading(false), 4000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -109,8 +109,6 @@ export default function HomeScreen() {
                     paddingHorizontal: 16,
                     marginTop: 8,
                   }}
-                  // columnWrapperStyle={{ justifyContent: "space-between", paddingHorizontal: 16 }}
-                  // contentContainerStyle={{ paddingTop: 8, paddingBottom: 80 }}
                   contentContainerStyle={
                     !isLoading && !techProducts
                       ? { flexGrow: 1, justifyContent: 'center' }

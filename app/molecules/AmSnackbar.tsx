@@ -2,19 +2,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { Snackbar, Text } from 'react-native-paper';
+import { AmSnackbarProps } from '../constants/dtos/common';
 
-export type AmSnackbarProps = {
-  visible: boolean;
-  onDismiss: () => void;
-  message: string;
-  duration?: number;
-  status?: 'success' | 'info' | 'warning' | 'error';
-  /** 
-   * Override the default icon for this status. 
-   * Must be a valid name from MaterialCommunityIcons.glyphMap 
-   */
-  iconName?: keyof typeof MaterialCommunityIcons.glyphMap;
-};
 
 const STATUS_CONFIG: Record<
   NonNullable<AmSnackbarProps['status']>,
@@ -90,9 +79,8 @@ const AmSnackbar: React.FC<AmSnackbarProps> = ({ visible, onDismiss, message, du
       <View style={styles.contentRow}>
         <MaterialCommunityIcons
           name={chosenIcon}
-          size={20}
+          size={24}
           color={iconColor}
-          // style={styles.icon}
           style={styles.icon as TextStyle}
         />
         <Text style={[styles.messageText, { color: textColor }]}>{message}</Text>
@@ -108,25 +96,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E7EB',
     borderRadius: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 10,
     paddingHorizontal: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
     elevation: 2,
     borderLeftWidth: 4,
-    // height: 50,
   } as ViewStyle,
   contentRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    justifyContent: 'space-between',
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+    marginRight: 0
   } as ViewStyle,
   icon: {
     marginRight: 8,
   } as ViewStyle,
   messageText: {
     fontSize: 16,
+    marginRight: 30
   } as TextStyle,
 });

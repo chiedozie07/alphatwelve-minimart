@@ -8,14 +8,14 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  useWindowDimensions,
+  // useWindowDimensions,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AmText } from '../atoms';
 import AmCustomButton from '../atoms/buttons/AmCustomButton';
 import { products } from '../constants/data/products';
-import { ProductProps } from '../constants/dtos/common';
+import { ProductProps, SnackbarState } from '../constants/dtos/common';
 import { useCart } from '../hooks/useCart';
 import AmLoader from '../molecules/AmLoader';
 import AmSnackbar from '../molecules/AmSnackbar';
@@ -23,12 +23,6 @@ import AppHeader from '../molecules/AppHeader';
 import EmptyResult from '../molecules/EmptyResult';
 
 
-export type SnackbarState = {
-  visible: boolean;
-  message: string;
-  status?: string;
-  iconName?: any;
-};
 
 export default function ProductDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -50,11 +44,12 @@ export default function ProductDetailsScreen() {
       isMountedRef.current = false;
     };
   }, []);
+  
   const product: ProductProps | undefined = products.find((p) => p.id === id);
   const { addToCart, cart } = useCart();
 
   // get device window size
-  const { height, width } = useWindowDimensions();
+  // const { height, width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
   if (!product) {
@@ -107,7 +102,7 @@ export default function ProductDetailsScreen() {
       <AmLoader visible={loading} />
       {/* unified snackbar with status to show that product is been added to the cart */}
       {snackbar.visible && (
-        <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 120, left: 0, right: 0, zIndex: 100 }}>
+        <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 98, left: 0, right: 0, zIndex: 100 }}>
           <AmSnackbar
             visible={snackbar.visible}
             onDismiss={() => setSnackbar({ visible: false, message: '' })}

@@ -45,7 +45,7 @@ Ensure you have the following installed:
 
 #### 1. Clone Repository
 ```sh
-git clone https://github.com/your-username/alphatwelve-minimart.git
+git clone https://github.com/chiedozie07/alphatwelve-minimart.git
 cd alphatwelve-minimart
 ```
 ### 2. Install Dependencies

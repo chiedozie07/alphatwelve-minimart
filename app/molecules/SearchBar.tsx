@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginTop: 8,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#D1D5DB'
   },
   iosPadding: {
     paddingVertical: 12,

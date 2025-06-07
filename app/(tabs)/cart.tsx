@@ -1,17 +1,21 @@
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
+  Platform,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
   View
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AmText } from '../atoms';
 import AmCustomButton from '../atoms/buttons/AmCustomButton';
+import { SnackbarState } from '../constants/dtos/common';
 import { useCart } from '../hooks/useCart';
+import AmSnackbar from '../molecules/AmSnackbar';
 import AppHeader from '../molecules/AppHeader';
 import CartProductList from '../molecules/CartProductList';
 import EmptyResult from '../molecules/EmptyResult';
@@ -19,9 +23,25 @@ import EmptyResult from '../molecules/EmptyResult';
 
 export default function CartScreen() {
   const [isProccessing, setIsProccessing] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    visible: false,
+    message: '',
+    status: '',
+    iconName: '',
+    duration: undefined
+  });
   const { cart } = useCart();
   const router = useRouter();
   const { height, width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+
+  // track whether the component is still mounted
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // calculate subtotal
   const subtotal = useMemo(() => cart.reduce((sum, item) => sum + item.price * item.quantity, 0), [cart]);
@@ -30,15 +50,48 @@ export default function CartScreen() {
 
   // handle checkout
   const handleProductsCheckout = () => {
-    setIsProccessing(true)
     console.log('Checking out products...');
-    return;
+    if (!isProccessing) {
+      setIsProccessing(true);
+      setTimeout(() => {
+        setIsProccessing(false);
+        setSnackbar({
+          visible: true,
+          message: "The checkout feature is currently unavailable and coming soon. Our software engineer, \"Chiedozie\", is actively working to put that in place as soon as possible. Please try again later!",
+          status: 'info',
+          iconName: 'information-outline',
+          duration: 7000,
+        });
+        setTimeout(() => {
+          if (isMountedRef.current) {
+            setSnackbar({
+              visible: false,
+              message: '',
+              status: '',
+              iconName: '',
+              duration: undefined,
+            });
+          }
+        }, 7000);
+      }, 10000);
+    }
   };
+  
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC', width: width, height: height }}>
+      <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 190, left: 0, right: 0, zIndex: 100 }}>
+        <AmSnackbar
+          visible={snackbar.visible}
+          onDismiss={() => setSnackbar({ visible: false, message: '' })}
+          message={snackbar.message}
+          iconName={snackbar.iconName}
+          status={snackbar.status?.includes('info') ? 'info' : 'success'}
+          duration={snackbar.duration && snackbar.duration}
+        />
+      </View>
       <AppHeader />
-
       {/* back and title row */}
       <View style={styles.backRow}>
         <TouchableOpacity activeOpacity={0.4} onPress={() => router.back()} style={styles.backButton}>
@@ -82,15 +135,9 @@ export default function CartScreen() {
                 <AmText variant="titleMedium">${total.toFixed(2)}</AmText>
               </View>
               <View style={{ elevation: 3, shadowOpacity: 3, marginBottom: 5 }} />
-
-              {/* <TouchableOpacity style={styles.checkoutButton} activeOpacity={0.8}>
-                <AmText variant="labelLarge" style={styles.checkoutButtonText}>
-                  Checkout (${total.toFixed(2)})
-                </AmText>
-              </TouchableOpacity> */}
               <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 <AmCustomButton
-                  title={!isProccessing ? `Checkout ($${total.toFixed(2)})` : 'Please wait...'}
+                  title={!isProccessing ? `Checkout ($${total.toFixed(2)})` : 'Checking out...'}
                   onPress={handleProductsCheckout}
                   loading={isProccessing}
                   disabled={isProccessing}

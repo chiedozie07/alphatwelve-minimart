@@ -1,21 +1,47 @@
-import { DefaultTheme as NavigationDefaultTheme, ThemeProvider } from '@react-navigation/native';
+import {
+  DefaultTheme as NavigationDefaultTheme,
+  ThemeProvider,
+} from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
 import { MD3LightTheme as PaperDefaultTheme, PaperProvider } from 'react-native-paper';
-import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import SplashScreenComponent from './splash';
 import { AppProviders } from './state/context/AppProviders';
 
-export default function RootLayout() {
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+// Keep the splash visible while we fetch resources
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
-  if (!loaded) {
-    return null; // optionally show a SplashScreen or loader
+export default function RootLayout() {
+  const [fontsLoaded] = useFonts({SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')});
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  const handleSplashFinish = () => {
+    setShowSplash(false);
+      // router.replace('/(tabs)');
+  };
+
+  if (!fontsLoaded) return null;
+
+  if (showSplash) {
+    return (
+      <>
+        <StatusBar style="dark" />
+        <SplashScreenComponent onFinish={handleSplashFinish} />
+      </>
+    );
   }
 
+  // 3) After 2s, render the actual app
   const paperTheme = {
     ...PaperDefaultTheme,
     colors: {
@@ -34,14 +60,12 @@ export default function RootLayout() {
         <AppProviders>
           <ThemeProvider value={NavigationDefaultTheme}>
             <StatusBar style="dark" />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="+not-found" />
-              <Stack.Screen name="product/[id]" />
+            <Stack screenOptions={{headerShown: false}}>
+              <Slot />
             </Stack>
           </ThemeProvider>
         </AppProviders>
       </SafeAreaProvider>
     </PaperProvider>
   );
-}
+};

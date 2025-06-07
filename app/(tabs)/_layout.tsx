@@ -11,18 +11,17 @@ export default function TabLayout() {
   const { cart } = useCart();
 
   // tab items definition
-const tabItems: TabItem[] = [
-  { name: 'index',     title: 'Home',      icon: 'home' },
-  { name: 'cart',      title: 'Cart',      icon: 'cart-outline',  tabBarBadge: cart?.length === 0 ? undefined : cart?.length},
-  { name: 'favorites', title: 'Favorites', icon: 'heart-outline' },
-  { name: 'profile',   title: 'Profile',   icon: 'account-circle-outline' },
-];
+  const tabItems: TabItem[] = [
+    { name: 'index', title: 'Home', icon: 'home' },
+    { name: 'cart', title: 'Cart', icon: 'cart-outline', tabBarBadge: cart?.length === 0 ? undefined : cart?.length },
+    { name: 'favorites', title: 'Favorites', icon: 'heart-outline' },
+    { name: 'profile', title: 'Profile', icon: 'account-circle-outline' },
+  ];
 
   return (
     <Tabs
       screenOptions={({ route }) => {
         const currentTab = tabItems.find((t) => t.name === route.name);
-
         return {
           headerShown: false,
           tabBarShowLabel: true,
@@ -31,13 +30,11 @@ const tabItems: TabItem[] = [
           tabBarInactiveTintColor: '#374151',
           // use HapticTab wrapper for every tab button
           tabBarButton: HapticTab,
-
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '500',
             marginBottom: Platform.OS === 'ios' ? 4 : 2,
           },
-
           // tab bar container styling
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
@@ -47,11 +44,9 @@ const tabItems: TabItem[] = [
             paddingTop: 5,
             elevation: 0,
           },
-
           // icon wrapper and the actual icon
           tabBarIcon: ({ color, focused }) => {
             const iconName: TabIconName = currentTab?.icon || 'alert-circle-outline';
-
             return (
               <View
                 style={{
@@ -68,7 +63,7 @@ const tabItems: TabItem[] = [
               >
                 <MaterialCommunityIcons
                   name={iconName}
-                  size={ 22 }
+                  size={22}
                   color={focused ? '#FFFFFF' : color}
                 />
               </View>

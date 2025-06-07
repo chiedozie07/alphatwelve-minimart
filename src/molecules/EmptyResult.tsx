@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { AmText } from '../atoms';
+import { AmText } from '../../src/atoms';
 
 type EmptyResultProps = {
   size?: number;

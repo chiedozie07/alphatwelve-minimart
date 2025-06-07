@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleProp, TextInputProps, ViewStyle } from "react-native";
+import { ImageSourcePropType, StyleProp, TextInputProps, ViewStyle } from "react-native";
 
 // explicitly allow type only valid icon names from MaterialCommunityIcons:
 export type TabIconName = keyof typeof MaterialCommunityIcons.glyphMap;
@@ -13,7 +13,7 @@ export interface TabItem {
 export type ProductProps = {
     id: string;
     name: string;
-    image: string;
+    image: ImageSourcePropType;
     price: number;
     category: string;
     subcategory: string;

@@ -1,10 +1,10 @@
-import HapticTab from '@/app/molecules/HapticTab';
+import { useCart } from '@/hooks/useCart';
+import HapticTab from '@/molecules/HapticTab';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, View } from 'react-native';
-import { TabIconName, TabItem } from '../constants/dtos/common';
-import { useCart } from '../hooks/useCart';
+import { TabIconName, TabItem } from '../../src/constants/dtos/common';
 
 
 export default function TabLayout() {

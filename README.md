@@ -20,6 +20,7 @@ A modern, sleek, and responsive cross-platform shopping app built with React Nat
 - Context API for Cart, Favorites, Products, and Alerts
 - Custom hooks (useCart, useFavorites, useProducts, etc.)
 ##### Navigation
+- Implemented a dynamic bottom tab navigation with Expo router
 - Expo Router’s file-based routing with tab navigation (Home, Favorites, Cart, Profile)
 - Stack navigation for nested screens (e.g., Product Details)
 ##### UI/Styling
@@ -64,12 +65,17 @@ eas build --profile development --platform ios
 # then install the generated .app on simulator/device
 # This lets you see the real native splash & icon instead of Expo Go’s.
 ```
-### Example Screenshots
-![Custom splash screen showing the AlphaTwelve Minimart logo centered above the text “AlphaTwelve Minimart” and the slogan “ Discover, shop and smile.” with a teal loading spinner below](./assets/images/screenshots/custom-splash-screen.png)
-![Home screen and product listing](./assets//images/screenshots/home-screen.png)
-![Product search feature to filter or get poducts by name](./assets/images/screenshots/product-search-feature.png)
-![Product details screen with user feature to make product their favorite or add to cart for purchase](./assets/images/screenshots/product-details-screen.png)
-![Cart screen to adjust quantities, remove items from cart or checkout to purchase product.](./assets/images/screenshots/cart-screen.png)
+<h3>Example Screenshots</h3>
+
+<img src="./assets/images/screenshots/custom-splash-screen.png" alt="Custom splash screen showing the AlphaTwelve Minimart logo..." width="300" />
+
+<img src="./assets/images/screenshots/home-screen.png" alt="Home screen and product listing" width="300" />
+
+<img src="./assets/images/screenshots/product-search-feature.png" alt="Product search feature to filter or get products by name" width="300" />
+
+<img src="./assets/images/screenshots/product-details-screen.png" alt="Product details screen with user feature to favorite/add to cart" width="300" />
+
+<img src="./assets/images/screenshots/cart-screen.png" alt="Cart screen to adjust quantities or checkout" width="300" />
 
 #### Usage
 1. On the home screen choose a product category and browse products, use the search bar, tap a product to view details.

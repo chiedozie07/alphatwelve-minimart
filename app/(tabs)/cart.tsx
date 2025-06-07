@@ -1,3 +1,8 @@
+import { useCart } from '@/hooks/useCart';
+import AmSnackbar from '@/molecules/AmSnackbar';
+import AppHeader from '@/molecules/AppHeader';
+import CartProductList from '@/molecules/CartProductList';
+import EmptyResult from '@/molecules/EmptyResult';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -11,14 +16,8 @@ import {
   View
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AmText } from '../atoms';
-import AmCustomButton from '../atoms/buttons/AmCustomButton';
-import { SnackbarState } from '../constants/dtos/common';
-import { useCart } from '../hooks/useCart';
-import AmSnackbar from '../molecules/AmSnackbar';
-import AppHeader from '../molecules/AppHeader';
-import CartProductList from '../molecules/CartProductList';
-import EmptyResult from '../molecules/EmptyResult';
+import { AmCustomButton, AmText } from '../../src/atoms';
+import { SnackbarState } from '../../src/constants/dtos/common';
 
 
 export default function CartScreen() {

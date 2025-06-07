@@ -1,5 +1,5 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { AmText } from "../atoms";
+import { AmText } from "../../src/atoms";
 import { ICartItem } from "../constants/dtos/common";
 import { useCart } from "../hooks/useCart";
 
@@ -60,7 +60,7 @@ const CartProductList: React.FC<CartProductListProps> = ({ item }) => {
           className='items-center justify-center w-11 h-11 bg-[#FFFFFF] rounded-full ml-16'
         >
           <Image
-            source={require('@/assets/images/icons/delete_vector.png')}
+            source={require('assets/images/icons/delete_vector.png')}
             className="w-4 h-4"
             resizeMode="contain"
           />

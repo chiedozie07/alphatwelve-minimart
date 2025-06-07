@@ -1,6 +1,6 @@
-import { AmText } from "@/app/atoms";
-import { ProductProps } from "@/app/constants/dtos/common";
-import AmCard from "@/app/molecules/AmCard";
+import { AmText } from "@/atoms";
+import { ProductProps } from "@/constants/dtos/common";
+import AmCard from "@/molecules/AmCard";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "alphatwelve-minimart",
+    "name": "AlphaTwelve Minimart",
     "slug": "alphatwelve-minimart",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,15 +8,18 @@
     "scheme": "alphatwelveminimart",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "platforms": ["ios", "android"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chiedozie07.alphatwelveminimart"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.chiedozie07.alphatwelveminimart"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +41,11 @@
     "experiments": {
       "typedRoutes": true
     },
-    "jsEngine": "hermes"
+    "jsEngine": "hermes",
+    "extra": {
+      "eas": {
+        "projectId": "805729eb-be42-4103-81be-1d68abe5b5ca"
+      }
+    }
   }
 }

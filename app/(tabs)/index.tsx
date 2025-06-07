@@ -1,15 +1,14 @@
-import "@/global.css";
+import AmLoader from "@/molecules/AmLoader";
+import AppHeader from "@/molecules/AppHeader";
+import EmptyResult from "@/molecules/EmptyResult";
+import SearchBar from "@/molecules/SearchBar";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, StatusBar, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AmText } from "../atoms";
-import { products } from "../constants/data/products";
-import AmLoader from "../molecules/AmLoader";
-import AppHeader from "../molecules/AppHeader";
-import EmptyResult from "../molecules/EmptyResult";
-import SearchBar from "../molecules/SearchBar";
-import AmProductCard from "../organisms/card/AmProductCard";
+import { AmText } from "../../src/atoms";
+import { products } from "../../src/constants/data/products";
+import AmProductCard from "../../src/organisms/card/AmProductCard";
 
 
 export default function HomeScreen() {
@@ -17,7 +16,8 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const timerRef = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
 
   // filter prooducts by "Technology" category
   const techProducts = products.filter((p) => p.category === "Technology");

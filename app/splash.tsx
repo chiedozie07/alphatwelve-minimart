@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ActivityIndicator, Animated, Easing, Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AmText } from './atoms';
+import { AmText } from '../src/atoms';
 
 
 interface Props {
@@ -52,7 +52,7 @@ const SplashScreenComponent: React.FC<Props> = ({ onFinish }) => {
   }, [logoOpacity, logoScale, nameOpacity, sloganOpacity, onFinish]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       {/* overlay the animated splash UI on top of everything */}
       <SafeAreaView style={styles.container}>
         <Animated.View
@@ -92,7 +92,7 @@ export default SplashScreenComponent;
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject, // Fill entire screen
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',

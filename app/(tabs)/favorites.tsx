@@ -1,7 +1,7 @@
+import AppHeader from '@/molecules/AppHeader';
 import React from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { AmText } from '../atoms';
-import AppHeader from '../molecules/AppHeader';
+import { AmText } from '../../src/atoms';
 
 export default function FavoritesScreen() {
   return (

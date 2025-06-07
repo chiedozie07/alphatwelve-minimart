@@ -1,16 +1,19 @@
+import { AppProviders } from '@/state/context/AppProviders';
 import {
   DefaultTheme as NavigationDefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot, Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import "global.css";
 import React, { useEffect, useState } from 'react';
 import { MD3LightTheme as PaperDefaultTheme, PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreenComponent from './splash';
-import { AppProviders } from './state/context/AppProviders';
+
+
 
 // Keep the splash visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -60,9 +63,9 @@ export default function RootLayout() {
         <AppProviders>
           <ThemeProvider value={NavigationDefaultTheme}>
             <StatusBar style="dark" />
-            <Stack screenOptions={{headerShown: false}}>
+            {/* <Stack screenOptions={{headerShown: false}}> */}
               <Slot />
-            </Stack>
+            {/* </Stack> */}
           </ThemeProvider>
         </AppProviders>
       </SafeAreaProvider>

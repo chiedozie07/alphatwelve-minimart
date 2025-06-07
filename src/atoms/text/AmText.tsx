@@ -1,4 +1,4 @@
-import { VariantType } from '@/app/constants/dtos/common';
+import { VariantType } from '@/src/constants/dtos/common';
 import React from 'react';
 import { StyleProp, StyleSheet, TextStyle } from 'react-native';
 import { Text } from 'react-native-paper';

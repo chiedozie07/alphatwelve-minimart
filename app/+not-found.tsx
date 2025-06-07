@@ -1,6 +1,6 @@
 import { Link, Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { AmText } from './atoms';
+import { AmText } from '../src/atoms';
 
 export default function NotFoundScreen() {
   return (

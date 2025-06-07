@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-import { AmText } from '../atoms';
+import { AmText } from '../../src/atoms';
 
 type AmLoaderProps = {
   visible: boolean;

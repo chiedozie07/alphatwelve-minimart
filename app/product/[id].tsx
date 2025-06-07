@@ -1,3 +1,8 @@
+import { useCart } from '@/hooks/useCart';
+import AmLoader from '@/molecules/AmLoader';
+import AmSnackbar from '@/molecules/AmSnackbar';
+import AppHeader from '@/molecules/AppHeader';
+import EmptyResult from '@/molecules/EmptyResult';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -12,16 +17,9 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AmText } from '../atoms';
-import AmCustomButton from '../atoms/buttons/AmCustomButton';
-import { products } from '../constants/data/products';
-import { ProductProps, SnackbarState } from '../constants/dtos/common';
-import { useCart } from '../hooks/useCart';
-import AmLoader from '../molecules/AmLoader';
-import AmSnackbar from '../molecules/AmSnackbar';
-import AppHeader from '../molecules/AppHeader';
-import EmptyResult from '../molecules/EmptyResult';
-
+import { AmCustomButton, AmText } from '../../src/atoms';
+import { products } from '../../src/constants/data/products';
+import { ProductProps, SnackbarState } from '../../src/constants/dtos/common';
 
 
 export default function ProductDetailsScreen() {
@@ -132,7 +130,7 @@ export default function ProductDetailsScreen() {
           >
             {!favorite ? (
               <Image
-                source={require('@/assets/images/icons/hugeicons_favourite.png')}
+                source={require('assets/images/icons/hugeicons_favourite.png')}
                 style={{ width: 24, height: 24 }}
                 resizeMode="contain"
               />

@@ -1,8 +1,8 @@
+import { useUser } from '@/hooks/useUser';
+import AppHeader from '@/molecules/AppHeader';
 import React from 'react';
 import { Button, SafeAreaView, View } from 'react-native';
-import { AmText } from '../atoms';
-import { useUser } from '../hooks/useUser';
-import AppHeader from '../molecules/AppHeader';
+import { AmText } from '../../src/atoms';
 
 export default function ProfileScreen() {
   const { user, setUser, isLoggedIn } = useUser();

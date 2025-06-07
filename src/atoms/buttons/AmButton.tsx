@@ -1,9 +1,9 @@
-import { IAmButtonProps } from '@/app/constants/dtos/common';
-import { AlertContext } from '@/app/state/context/AlertContext';
+import { IAmButtonProps } from '@/constants/dtos/common';
+import { ALERT_ACTIONS } from '@/state/actions/alertActions';
+import { AlertContext } from '@/state/context/AlertContext';
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import { ALERT_ACTIONS } from '../../state/actions/alertActions';
 
 
 const AmButton: React.FC<IAmButtonProps> = ({

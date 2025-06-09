@@ -48,6 +48,7 @@ export default AmCustomButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    width: '100%',
     backgroundColor: '#60B5FF',
     borderRadius: 8,
     alignItems: 'center',
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: '600',
   },
 });

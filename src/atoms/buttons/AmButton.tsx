@@ -1,7 +1,7 @@
 import { IAmButtonProps } from '@/constants/dtos/common';
+import { useHaptic } from '@/hooks/useHaptic';
 import { ALERT_ACTIONS } from '@/state/actions/alertActions';
-import { AlertContext } from '@/state/context/AlertContext';
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
@@ -20,15 +20,17 @@ const AmButton: React.FC<IAmButtonProps> = ({
   disabled = false,
   loading = false,
 }) => {
-  const { hapticFeedback } = useContext(AlertContext);
-
+  const haptic = useHaptic();
+  
   // called before invoking the passed-in onPress
   const handlePress = () => {
-    hapticFeedback({
-      style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT,
-      type: ALERT_ACTIONS.HAPTIC.TYPE.LIGHT,
-    });
-    onPress?.();
+    if (!disabled && !loading) {
+      haptic({
+        style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT,
+        type: ALERT_ACTIONS.HAPTIC.TYPE.MEDIUM,
+      });
+      onPress();
+    }
   };
 
   // determine background and label color logic

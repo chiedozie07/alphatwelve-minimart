@@ -2,7 +2,7 @@ import AmLoader from "@/molecules/AmLoader";
 import AppHeader from "@/molecules/AppHeader";
 import EmptyResult from "@/molecules/EmptyResult";
 import SearchBar from "@/molecules/SearchBar";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, StatusBar, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +17,6 @@ export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
-
 
   // filter prooducts by "Technology" category
   const techProducts = products.filter((p) => p.category === "Technology");
@@ -61,8 +60,6 @@ export default function HomeScreen() {
     }, 3000);
   };
 
-
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} className="px-4 ">
       <StatusBar barStyle="dark-content" backgroundColor="#F8FAFC" />
@@ -95,9 +92,8 @@ export default function HomeScreen() {
 
               {/* If no results */}
               {filteredProducts.length === 0 ? (
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="tab-search" size={24} color="#94a3b8" />
-                  <AmText variant="bodyLarge" style={{ color: '#6B7280', marginLeft: 15, fontSize: 16 }}>😢opss! no products match "{searchQuery}"</AmText>
+                <View className="my-0 px-0">
+                  <EmptyResult iconName="layers-search" text={`😢 Opss! no products match "${searchQuery}"`} iconSize={60}/>
                 </View>
               ) : (
                 <FlatList

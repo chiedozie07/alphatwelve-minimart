@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "AlphaTwelve Minimart",
+    "name": "AlphaTwelve",
     "slug": "alphatwelve-minimart",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -31,7 +31,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-blank.png",
+          "image": "./assets/images/splash.png",
           "imageWidth": 1,
           "resizeMode": "contain",
           "backgroundColor": "#FFFFFF"

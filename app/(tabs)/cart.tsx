@@ -56,7 +56,7 @@ export default function CartScreen() {
         setIsProccessing(false);
         setSnackbar({
           visible: true,
-          message: "The checkout feature is currently unavailable and coming soon. Our software engineer, \"Chiedozie\", is actively working to put that in place as soon as possible. Please try again later!",
+          message: "The checkout feature is currently unavailable and coming soon. Our software engineer \"Chiedozie\" is actively working to put that in place as soon as possible. Please try again later!",
           status: 'info',
           iconName: 'information-outline',
           duration: 7000,
@@ -102,7 +102,7 @@ export default function CartScreen() {
       <View style={styles.container}>
         {cart.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <EmptyResult text='Your cart is empty. Please select your preferred product(s) to buy.' />
+            <EmptyResult iconName='cart-off' iconSize={80} title='No item in cart yet!' text='Your cart is empty. Please select your preferred product(s) to buy.' />
           </View>
         ) : (
           <>
@@ -154,7 +154,7 @@ export default function CartScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 16, marginTop: 12, backgroundColor: '#FFFFFF', },
-  title: { marginBottom: 12, color: '#1F2937', fontWeight: '700' },
+  title: { color: '#1F2937', fontWeight: '700' },
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   cartItemDetails: {
     flex: 1,
@@ -196,5 +196,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 8,
   },
-  backButton: { flexDirection: 'row', alignItems: 'flex-start', marginRight: 10 },
+  backButton: { flexDirection: 'row', textAlign: 'center', marginRight: 10 },
 });

@@ -1,5 +1,7 @@
+import CustomTabBarButton from '@/atoms/buttons/CustomTabBarButton';
 import { useCart } from '@/hooks/useCart';
-import HapticTab from '@/molecules/HapticTab';
+// import { useHaptic } from '@/hooks/useHaptic';
+// import { ALERT_ACTIONS } from '@/state/actions/alertActions';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -9,6 +11,7 @@ import { TabIconName, TabItem } from '../../src/constants/dtos/common';
 
 export default function TabLayout() {
   const { cart } = useCart();
+  // const haptic = useHaptic();
 
   // tab items definition
   const tabItems: TabItem[] = [
@@ -28,8 +31,6 @@ export default function TabLayout() {
           tabBarLabelPosition: 'below-icon',
           tabBarActiveTintColor: '#60B5FF',
           tabBarInactiveTintColor: '#374151',
-          // use HapticTab wrapper for every tab button
-          tabBarButton: HapticTab,
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '500',
@@ -76,10 +77,19 @@ export default function TabLayout() {
         <Tabs.Screen
           key={tab.name}
           name={tab.name}
+          // listeners={{
+          //   tabPress: () => {
+          //     haptic({
+          //       style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT,
+          //       type: ALERT_ACTIONS.HAPTIC.TYPE.HEAVY,
+          //     });
+          //   },
+          // }}
           options={{
             title: tab.title,
             tabBarBadge: tab.tabBarBadge,
             tabBarHideOnKeyboard: false,
+            tabBarButton: (props) => <CustomTabBarButton {...props} />,
             tabBarBadgeStyle: {
               backgroundColor: '#3C4856',
               color: '#FFFFFF',

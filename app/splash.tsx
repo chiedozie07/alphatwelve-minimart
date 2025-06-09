@@ -65,7 +65,7 @@ const SplashScreenComponent: React.FC<Props> = ({ onFinish }) => {
           ]}
         >
           <Image
-            source={require('../assets/images/logo.png')}
+            source={require('../assets/images/logo/alphatwelve-minimart-logo.png')}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     height: 128,
   },
   textWrapper: {
-    marginTop: 12,
+    marginTop: 8,
   },
   brandName: {
     fontSize: 24,

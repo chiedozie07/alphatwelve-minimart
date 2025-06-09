@@ -1,22 +1,25 @@
 import { useCart } from '@/hooks/useCart';
+import { useFavorites } from '@/hooks/useFavorites';
+import { useHaptic } from '@/hooks/useHaptic';
 import AmLoader from '@/molecules/AmLoader';
 import AmSnackbar from '@/molecules/AmSnackbar';
 import AppHeader from '@/molecules/AppHeader';
 import EmptyResult from '@/molecules/EmptyResult';
+import { ALERT_ACTIONS } from '@/state/actions/alertActions';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Image,
   Platform,
-  SafeAreaView,
+  // SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   // useWindowDimensions,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AmCustomButton, AmText } from '../../src/atoms';
 import { products } from '../../src/constants/data/products';
 import { ProductProps, SnackbarState } from '../../src/constants/dtos/common';
@@ -27,13 +30,23 @@ export default function ProductDetailsScreen() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [proccessing, setProccessing] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     visible: false,
     message: '',
     status: '',
     iconName: ''
   });
+
+  const product: ProductProps | undefined = products.find((p) => p.id === id);
+  const { addToCart, cart } = useCart();
+  const { favorites, addFavorites, removeFavorite } = useFavorites();
+  const haptic = useHaptic();
+
+
+  // get device window size
+  // const { height, width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
   // track whether the component is still mounted
   const isMountedRef = useRef(true);
@@ -42,13 +55,28 @@ export default function ProductDetailsScreen() {
       isMountedRef.current = false;
     };
   }, []);
-  
-  const product: ProductProps | undefined = products.find((p) => p.id === id);
-  const { addToCart, cart } = useCart();
 
-  // get device window size
-  // const { height, width } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
+  // make product user's favorite
+  useEffect(() => {
+    if (product) {
+      setIsFavorited(favorites.some(item => item.id === product.id));
+    }
+  }, [favorites, product]);
+
+  const makeFavorites = () => {
+    if (!product) return;
+    const isAlreadyFavorited = favorites.some(item => item.id === product.id);
+    // favorite button haptic feedback
+    haptic({ style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT, type: ALERT_ACTIONS.HAPTIC.TYPE.LIGHT });
+    if (!isAlreadyFavorited) {
+      setIsFavorited(true);
+      addFavorites(product); // use the current product
+    } else {
+      setIsFavorited(false);
+      removeFavorite(product.id);
+    }
+  };
+
 
   if (!product) {
     return (
@@ -106,7 +134,7 @@ export default function ProductDetailsScreen() {
             onDismiss={() => setSnackbar({ visible: false, message: '' })}
             message={snackbar.message}
             status={snackbar.status?.includes('info') ? 'info' : 'success'}
-            iconName={snackbar.iconName?.includes('information-outline') && 'information-outline'}
+            iconName={snackbar.iconName?.includes('information-outline') && snackbar.iconName}
           />
         </View>
       )}
@@ -115,9 +143,9 @@ export default function ProductDetailsScreen() {
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         {/* back and title row */}
         <View style={styles.backRow}>
-          <TouchableOpacity activeOpacity={0.7} onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity activeOpacity={0.4} onPress={() => router.back()} style={styles.backButton}>
             <AntDesign name="left" size={20} color="#1f2937" />
-            <AmText variant="bodyMedium" style={{ marginLeft: 8, fontWeight: '600' }}>
+            <AmText variant="bodyMedium" style={{ marginLeft: 8, fontSize: 16, fontWeight: 'bold' }}>
               Go back
             </AmText>
           </TouchableOpacity>
@@ -125,10 +153,11 @@ export default function ProductDetailsScreen() {
         {/* product image */}
         <View style={styles.productImageContainer}>
           <TouchableOpacity activeOpacity={0.3}
-            className='flex items-center justify-center w-16 h-16 rounded-full bg-[#fff] self-end absolute top-0 z-50 mt-2 ml-3'
-            onPress={() => setFavorite(!favorite)}
+            className='flex items-center justify-center w-16 h-16 rounded-full bg-gray-50 self-end absolute top-0 z-50 mt-2 mr-2'
+            // onPress={() => setIsFavorited(!isFavorited)}
+            onPress={makeFavorites}
           >
-            {!favorite ? (
+            {!isFavorited ? (
               <Image
                 source={require('assets/images/icons/hugeicons_favourite.png')}
                 style={{ width: 24, height: 24 }}
@@ -162,14 +191,14 @@ export default function ProductDetailsScreen() {
           </View>
 
           {/* add to cart button */}
-          <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <AmCustomButton
               title={proccessing ? 'Adding to cart...' : 'Add to cart'}
               onPress={() => handleAddToCart(product.id)}
               loading={proccessing}
               disabled={proccessing}
               style={styles.addToCartButton}
-              textStyle={styles.buttonText} 
+              textStyle={styles.buttonText}
             />
           </View>
           {/* <AmButton title='Add to cart' 
@@ -198,8 +227,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingHorizontal: 16,
     marginTop: 12,
+    marginBottom: 10
   },
-  backButton: { flexDirection: 'row', alignItems: 'center' },
+  backButton: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
   productImageContainer: {
     marginHorizontal: 16,
     marginTop: 16,
@@ -216,9 +246,9 @@ const styles = StyleSheet.create({
   },
   productImage: { width: '80%', height: '80%' },
   detailsContainer: { marginHorizontal: 16, marginTop: 20, backgroundColor: '#FBFBFB' },
-  productName: { fontSize: 16, fontWeight: '500' },
+  productName: { fontSize: 16, fontWeight: '400' },
   productPrice: { color: '#1F2937', fontWeight: '600', marginTop: 8 },
-  sectionTitle: { color: '#1F2937', fontWeight: '600', marginBottom: 4 },
+  sectionTitle: { color: '#1F2937', fontSize: 14, fontWeight: 'bold', marginBottom: 4 },
   descriptionText: { color: '#4B5563', lineHeight: 20, marginBottom: 8 },
   addToCartButton: {
     backgroundColor: '#60B5FF',

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { AlertProvider } from './AlertContext';
 import { CartProvider } from './CartContext';
+import { FavoritesProvider } from './FavoritesContext';
 import { ProductsProvider } from './ProductsContext';
 import { UserProvider } from './UserContext';
 
@@ -9,7 +10,9 @@ export const AppProviders: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AlertProvider>
       <UserProvider>
         <ProductsProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            <FavoritesProvider>{children}</FavoritesProvider>
+            </CartProvider>
         </ProductsProvider>
       </UserProvider>
     </AlertProvider>

@@ -10,12 +10,12 @@ export interface AlertContextType {
 };
 
 export const AlertContext = createContext<AlertContextType>({
-  hapticFeedback: () => {},
+  hapticFeedback: () => { },
 });
 
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const hapticFeedback = useCallback(
-    async (payload: { style: keyof typeof ALERT_ACTIONS.HAPTIC.STYLE; type: keyof typeof ALERT_ACTIONS.HAPTIC.TYPE }) => {
+  const hapticFeedback = useCallback(async (payload: { style: keyof typeof ALERT_ACTIONS.HAPTIC.STYLE; type: keyof typeof ALERT_ACTIONS.HAPTIC.TYPE }) => {
+    try {
       if (payload.style === ALERT_ACTIONS.HAPTIC.STYLE.IMPACT) {
         await Haptics.impactAsync(
           payload.type === ALERT_ACTIONS.HAPTIC.TYPE.LIGHT
@@ -24,9 +24,11 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         );
       }
       // TODO: Extend later for NOTIFICATION or SELECTION as needed
-    },
+    } catch (error) {
+      console.log('Oopss! Haptic feedback failed or is unsupported on this device:', error);
+    }
+  },
     []
   );
-
   return <AlertContext.Provider value={{ hapticFeedback }}>{children}</AlertContext.Provider>;
 };

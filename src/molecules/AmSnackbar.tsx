@@ -74,6 +74,8 @@ const AmSnackbar: React.FC<AmSnackbarProps> = ({ visible, onDismiss, message, du
         label: '✕',
         onPress: onDismiss,
         color: actionColor,
+        labelStyle: {marginHorizontal: 5, paddingLeft: 0, alignSelf: 'flex-end'},
+        contentStyle: { justifyContent: 'flex-end', paddingHorizontal: 0, marginHorizontal: 0}
       }}
     >
       <View style={styles.contentRow}>
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     elevation: 2,
-    borderLeftWidth: 4,
+    borderLeftWidth: 6,
   } as ViewStyle,
   contentRow: {
     flexDirection: 'row',
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   } as ViewStyle,
   messageText: {
-    fontSize: 16,
-    marginRight: 30
+    fontSize: 15,
+    // textAlign: 'center',
   } as TextStyle,
 });

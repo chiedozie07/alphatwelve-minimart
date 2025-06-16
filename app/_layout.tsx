@@ -4,7 +4,7 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot } from 'expo-router';
+import { Slot, useNavigation, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import "global.css";
@@ -14,37 +14,37 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreenComponent from './splash';
 
 
-
 // Keep the splash visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')});
   const [showSplash, setShowSplash] = useState(true);
+  const navigation = useNavigation();
+  const router = useRouter();
+  
 
+  // hide native splash when fonts load
   useEffect(() => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  const handleSplashFinish = () => {
-    setShowSplash(false);
-      // router.replace('/(tabs)');
-  };
-
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) {
+    return null;
+  }
 
   if (showSplash) {
     return (
       <>
-        <StatusBar style="dark" />
-        <SplashScreenComponent onFinish={handleSplashFinish} />
+        <StatusBar style="light" />
+        <SplashScreenComponent onFinish={() => setShowSplash(false)} />
       </>
     );
   }
 
-  // 3) After 2s, render the actual app
+  // finally render the main app
   const paperTheme = {
     ...PaperDefaultTheme,
     colors: {
@@ -62,10 +62,8 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <AppProviders>
           <ThemeProvider value={NavigationDefaultTheme}>
-            <StatusBar style="dark" />
-            {/* <Stack screenOptions={{headerShown: false}}> */}
+            <StatusBar style="light" />
               <Slot />
-            {/* </Stack> */}
           </ThemeProvider>
         </AppProviders>
       </SafeAreaProvider>

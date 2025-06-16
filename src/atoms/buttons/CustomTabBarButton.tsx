@@ -1,4 +1,4 @@
-import { triggerHaptic } from '@/utils/haptics';
+// import { triggerHaptic } from '@/utils/haptics';
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
@@ -11,7 +11,7 @@ const CustomTabBarButton: React.FC<Props> = ({ children, onPress, ...rest }) => 
     <TouchableOpacity
       activeOpacity={0.4}
       onPress={(e) => {
-        triggerHaptic('light');
+        // triggerHaptic('heavy');
         onPress?.(e);
       }}
       {...rest}

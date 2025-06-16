@@ -25,10 +25,7 @@ const AmButton: React.FC<IAmButtonProps> = ({
   // called before invoking the passed-in onPress
   const handlePress = () => {
     if (!disabled && !loading) {
-      haptic({
-        style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT,
-        type: ALERT_ACTIONS.HAPTIC.TYPE.MEDIUM,
-      });
+      haptic({style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT, type: ALERT_ACTIONS.HAPTIC.TYPE.MEDIUM});
       onPress();
     }
   };

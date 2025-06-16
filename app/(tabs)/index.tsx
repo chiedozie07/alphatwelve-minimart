@@ -3,20 +3,27 @@ import AppHeader from "@/molecules/AppHeader";
 import EmptyResult from "@/molecules/EmptyResult";
 import SearchBar from "@/molecules/SearchBar";
 import { AntDesign } from "@expo/vector-icons";
+import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { FlatList, StatusBar, TouchableOpacity, View } from "react-native";
+import { Alert, BackHandler, FlatList, StatusBar, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AmText } from "../../src/atoms";
 import { products } from "../../src/constants/data/products";
 import AmProductCard from "../../src/organisms/card/AmProductCard";
+// import { Dropdown } from 'react-native-paper-dropdown';
+
 
 
 export default function HomeScreen() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>('');
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const navigation = useNavigation();
+    const router = useRouter();
 
   // filter prooducts by "Technology" category
   const techProducts = products.filter((p) => p.category === "Technology");
@@ -36,6 +43,25 @@ export default function HomeScreen() {
     };
   }, []);
 
+  // exit the App on back button press
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert(
+          'Exit AlphaTwelve Minimart',
+          'Are you sure you want to exit?',
+          [
+            { text: 'Cancel', style: 'cancel', onPress: () => {} },
+            { text: 'Yes, Exit', onPress: () => BackHandler.exitApp() },
+          ],
+          { cancelable: false }
+        );
+        return true;
+      };
+      const unscubscribe = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => unscubscribe.remove();
+    }, []));
+
   // filtered list,, memoized for performance
   const filteredProducts = useMemo(() => {
     const lower = searchQuery.trim().toLowerCase();
@@ -50,7 +76,7 @@ export default function HomeScreen() {
     // filtering is synchronous, so we can immediately turn off the spinner:
     setIsSearching(false);
   };
-  
+
   // refresh product list
   const refreshProductList = () => {
     setRefreshing(true);
@@ -60,8 +86,14 @@ export default function HomeScreen() {
     }, 3000);
   };
 
+  // product category options
+  const OPTIONS = [
+    { label: 'Technology', value: 'technology' },
+    { label: 'Other', value: 'other' },
+  ];
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }} className="px-4 ">
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#F8FAFC" />
       {isLoading ? (
         <AmLoader visible={isLoading} text="Loading..." />
@@ -75,11 +107,22 @@ export default function HomeScreen() {
           {/* category header */}
           <View className="flex-row items-center justify-between px-4 py-3">
             <TouchableOpacity activeOpacity={0.7} className="flex-row items-center">
-              <AntDesign name="arrowleft" size={20} color="#1f2937" />
+              <AntDesign name="left" size={20} color="#1f2937" />
               <AmText variant='bodyMedium' className="ml-2 text-2xl text-gray-800" style={{ fontWeight: 'bold' }}>
                 Technology
               </AmText>
             </TouchableOpacity>
+            {/* TODO: add the drop down item selection feature later to filter and render products based on the selected category */}
+           {/* <Dropdown
+              // label="Category"
+              placeholder="Select Category"
+              options={OPTIONS}
+              value={category}
+              onSelect={setCategory}
+              hideMenuHeader={true}
+              statusBarHeight={55}
+              menuContentStyle={{ maxHeight: 30, paddingVertical: 0, paddingHorizontal: 0}}
+            /> */}
           </View>
           {!techProducts ? (
             <EmptyResult text={'Sorry, No product available for the category at the moment! '} />
@@ -93,7 +136,7 @@ export default function HomeScreen() {
               {/* If no results */}
               {filteredProducts.length === 0 ? (
                 <View className="my-0 px-0">
-                  <EmptyResult iconName="layers-search" text={`😢 Opss! no products match "${searchQuery}"`} iconSize={60}/>
+                  <EmptyResult iconName="layers-search" text={`😢 Opss! no products match "${searchQuery}"`} iconSize={60} />
                 </View>
               ) : (
                 <FlatList

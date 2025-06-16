@@ -6,6 +6,7 @@ import AmSnackbar from '@/molecules/AmSnackbar';
 import AppHeader from '@/molecules/AppHeader';
 import EmptyResult from '@/molecules/EmptyResult';
 import { ALERT_ACTIONS } from '@/state/actions/alertActions';
+import { triggerHaptic } from '@/utils/haptics';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -88,6 +89,7 @@ export default function ProductDetailsScreen() {
 
   // add the selected product tocart
   const handleAddToCart = async (productId: string) => {
+    triggerHaptic('medium');
     const existingItem = cart.find((item) => item.id === productId);
     if (existingItem) {
       // check if item already in cart
@@ -128,7 +130,7 @@ export default function ProductDetailsScreen() {
       <AmLoader visible={loading} />
       {/* unified snackbar with status to show that product is been added to the cart */}
       {snackbar.visible && (
-        <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 98, left: 0, right: 0, zIndex: 100 }}>
+        <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 72, left: 0, right: 0, zIndex: 100 }}>
           <AmSnackbar
             visible={snackbar.visible}
             onDismiss={() => setSnackbar({ visible: false, message: '' })}
@@ -143,9 +145,9 @@ export default function ProductDetailsScreen() {
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         {/* back and title row */}
         <View style={styles.backRow}>
-          <TouchableOpacity activeOpacity={0.4} onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity activeOpacity={0.3} onPress={() => router.back()} style={styles.backButton}>
             <AntDesign name="left" size={20} color="#1f2937" />
-            <AmText variant="bodyMedium" style={{ marginLeft: 8, fontSize: 16, fontWeight: 'bold' }}>
+            <AmText variant="bodyMedium" style={{ marginLeft: 8, fontSize: 16, fontWeight: '600', marginRight: 15 }}>
               Go back
             </AmText>
           </TouchableOpacity>
@@ -225,11 +227,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 16,
     marginTop: 12,
-    marginBottom: 10
+    marginHorizontal: 15,
   },
-  backButton: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
+  backButton: {backgroundColor: '#F7F7F7', paddingVertical: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
   productImageContainer: {
     marginHorizontal: 16,
     marginTop: 16,

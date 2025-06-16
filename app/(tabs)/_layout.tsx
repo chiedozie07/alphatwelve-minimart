@@ -1,7 +1,7 @@
 import CustomTabBarButton from '@/atoms/buttons/CustomTabBarButton';
 import { useCart } from '@/hooks/useCart';
-// import { useHaptic } from '@/hooks/useHaptic';
-// import { ALERT_ACTIONS } from '@/state/actions/alertActions';
+import { useHaptic } from '@/hooks/useHaptic';
+import { ALERT_ACTIONS } from '@/state/actions/alertActions';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -11,7 +11,7 @@ import { TabIconName, TabItem } from '../../src/constants/dtos/common';
 
 export default function TabLayout() {
   const { cart } = useCart();
-  // const haptic = useHaptic();
+  const haptic = useHaptic();
 
   // tab items definition
   const tabItems: TabItem[] = [
@@ -31,6 +31,7 @@ export default function TabLayout() {
           tabBarLabelPosition: 'below-icon',
           tabBarActiveTintColor: '#60B5FF',
           tabBarInactiveTintColor: '#374151',
+          // tabBarButton: () => haptic({style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT, type: ALERT_ACTIONS.HAPTIC.TYPE.HEAVY}),
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '500',
@@ -42,6 +43,7 @@ export default function TabLayout() {
             borderTopWidth: 0,
             height: 62,
             paddingBottom: Platform.OS === 'ios' ? 10 : 5,
+            marginBottom: Platform.OS === 'ios' && 15,
             paddingTop: 5,
             elevation: 0,
           },
@@ -51,11 +53,11 @@ export default function TabLayout() {
             return (
               <View
                 style={{
-                  // width:  35,
+                  // width:  40,
                   // height: 40,
                   minWidth: 40,
-                  padding: 4,
-                  paddingBottom: 4,
+                  padding: 6,
+                  paddingBottom: 0,
                   borderRadius: 20,
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -77,14 +79,14 @@ export default function TabLayout() {
         <Tabs.Screen
           key={tab.name}
           name={tab.name}
-          // listeners={{
-          //   tabPress: () => {
-          //     haptic({
-          //       style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT,
-          //       type: ALERT_ACTIONS.HAPTIC.TYPE.HEAVY,
-          //     });
-          //   },
-          // }}
+          listeners={{
+            tabPress: () => {
+              haptic({
+                style: ALERT_ACTIONS.HAPTIC.STYLE.IMPACT,
+                type: ALERT_ACTIONS.HAPTIC.TYPE.HEAVY,
+              });
+            },
+          }}
           options={{
             title: tab.title,
             tabBarBadge: tab.tabBarBadge,

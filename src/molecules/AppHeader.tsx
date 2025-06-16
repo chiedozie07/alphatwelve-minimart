@@ -8,13 +8,9 @@ const AppHeader = () => {
   const router = useRouter();
 
   return (
-    // <SafeAreaView
-    //   edges={["top", "left", "right"]}
-    //   style={{ backgroundColor: "#FFFFFF" }}
-    // >
       <View
-        className="flex-row items-center justify-between pr-4 py-3 bg-gray-100"
-        style={{ borderBottomWidth: 0.3, borderBottomColor: "#E5E7EB" }}
+        className="flex-row items-center justify-between pr-4 py-3 bg-gray-50"
+        style={{ borderBottomWidth: 0.1 }}
       >
         {/* app logo */}
         <TouchableOpacity
@@ -26,8 +22,8 @@ const AppHeader = () => {
           <Image
             source={require("assets/images/logo/alphatwelve-minimart-logo.png")}
             style={{
-              width: 55,
-              height: 45,
+              width: 60,
+              height: 50,
               // borderRadius: 50,
             }}
             resizeMode="contain"
@@ -44,7 +40,7 @@ const AppHeader = () => {
         </TouchableOpacity>
 
         {/* delivery address */}
-        <View className="items-center">
+        <View>
           <AmText
             variant="labelMedium"
             className="text-sm font-bold text-gray-800"
@@ -68,7 +64,6 @@ const AppHeader = () => {
           />
         </TouchableOpacity>
       </View>
-    // </SafeAreaView>
   );
 };
 

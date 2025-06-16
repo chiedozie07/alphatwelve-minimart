@@ -3,6 +3,7 @@ import AmSnackbar from '@/molecules/AmSnackbar';
 import AppHeader from '@/molecules/AppHeader';
 import CartProductList from '@/molecules/CartProductList';
 import EmptyResult from '@/molecules/EmptyResult';
+import { triggerHaptic } from '@/utils/haptics';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -50,6 +51,7 @@ export default function CartScreen() {
   // handle checkout
   const handleProductsCheckout = () => {
     console.log('Checking out products...');
+    triggerHaptic('heavy');
     if (!isProccessing) {
       setIsProccessing(true);
       setTimeout(() => {
@@ -59,7 +61,7 @@ export default function CartScreen() {
           message: "The checkout feature is currently unavailable and coming soon. Our software engineer \"Chiedozie\" is actively working to put that in place as soon as possible. Please try again later!",
           status: 'info',
           iconName: 'information-outline',
-          duration: 7000,
+          duration: 10000,
         });
         setTimeout(() => {
           if (isMountedRef.current) {
@@ -71,7 +73,7 @@ export default function CartScreen() {
               duration: undefined,
             });
           }
-        }, 7000);
+        }, 10000);
       }, 10000);
     }
   };
@@ -80,7 +82,7 @@ export default function CartScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC', width: width, height: height }}>
-      <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 190, left: 0, right: 0, zIndex: 100 }}>
+      <View style={{ position: 'absolute', top: Platform.OS === 'web' ? 70 : insets.top + 155, left: 0, right: 0, zIndex: 100 }}>
         <AmSnackbar
           visible={snackbar.visible}
           onDismiss={() => setSnackbar({ visible: false, message: '' })}
@@ -94,9 +96,9 @@ export default function CartScreen() {
       {/* back and title row */}
       <View style={styles.backRow}>
         <TouchableOpacity activeOpacity={0.4} onPress={() => router.back()} style={styles.backButton}>
-          <AntDesign name="left" size={18} color="#1f2937" />
+          <AntDesign name="left" size={18} color="#1f2937" className='text-gray-800 font-bold' />
         </TouchableOpacity>
-        <AmText variant='titleLarge' style={[styles.title, { fontSize: 19 }]}>Your Cart </AmText>
+        <AmText variant='titleLarge' className='text-gray-800 font-bold' style={[styles.title]}>Your Cart </AmText>
       </View>
 
       <View style={styles.container}>
@@ -154,7 +156,7 @@ export default function CartScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 16, marginTop: 12, backgroundColor: '#FFFFFF', },
-  title: { color: '#1F2937', fontWeight: '700' },
+  title: { color: '#1F2937', },
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   cartItemDetails: {
     flex: 1,
